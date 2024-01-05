@@ -49,6 +49,12 @@ void Application::handle_Input() {
             case SDL_QUIT:
                 exit(0);
                 break;
+            case SDL_KEYDOWN:
+                handle_Key_Down(&event.key);
+                break;
+            case SDL_KEYUP:
+                handle_Key_Up(&event.key);
+                break;
             default:
                 break;
         }
@@ -56,7 +62,7 @@ void Application::handle_Input() {
 }
 
 void Application::prepare_Scene() {
-    SDL_SetRenderDrawColor(m_renderer, 96, 128, 255, 255);
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
 }
 
@@ -87,4 +93,42 @@ void Application::blit_Texture(SDL_Texture* texture, int x_pos, int y_pos) {
 
 SDL_Renderer* Application::get_SDL_Renderer() {
     return this->m_renderer;
+}
+
+void Application::handle_Key_Down(SDL_KeyboardEvent* keyboard_event) {
+    if (keyboard_event->repeat == 0) {
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_W) {
+            m_player_movement_direction = Player_Movement_Direction::UP;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_S) {
+            m_player_movement_direction = Player_Movement_Direction::DOWN;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_A) {
+            m_player_movement_direction = Player_Movement_Direction::LEFT;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_D) {
+            m_player_movement_direction = Player_Movement_Direction::RIGHT;
+        }
+    }
+}
+
+void Application::handle_Key_Up(SDL_KeyboardEvent* keyboard_event) {
+    if (keyboard_event->repeat == 0) {
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_W) {
+            m_player_movement_direction = Player_Movement_Direction::NONE;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_S) {
+            m_player_movement_direction = Player_Movement_Direction::NONE;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_A) {
+            m_player_movement_direction = Player_Movement_Direction::NONE;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_D) {
+            m_player_movement_direction = Player_Movement_Direction::NONE;
+        }
+    }
+}
+
+Player_Movement_Direction Application::get_Player_Movement_Direction() {
+    return m_player_movement_direction;
 }
