@@ -10,10 +10,11 @@ int main() {
     Application main_Application;
     SDL_Renderer* main_Renderer = main_Application.m_renderer;
     Entity player_entity(main_Renderer);
-    Map map;
+    Map map(main_Renderer);
 
     while (true) {
         main_Application.prepare_Scene();
+        map.draw_Map();
         main_Application.handle_Input();
         Player_Movement_Direction direction = main_Application.get_Player_Movement_Direction();
 
