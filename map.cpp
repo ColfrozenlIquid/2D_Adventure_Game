@@ -28,9 +28,9 @@ void Map::draw_Map() {
 
 SDL_Texture* Map::load_Texture(std::string filename) {
     SDL_Texture* texture;
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading: %s", filename);
+    //SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading: %s", filename);
     texture = IMG_LoadTexture(m_renderer, filename.c_str());
-    std::cout << "Successfully loaded texture: " << texture << std::endl;
+    std::cout << "Successfully loaded map texture: " << texture << std::endl;
     return texture;
 }
 
@@ -48,6 +48,8 @@ void Map::blit_Texture(SDL_Texture* texture, int x_pos, int y_pos, int rotation)
     SDL_Rect destination;
     destination.x = x_pos;
     destination.y = y_pos;
+
+    //std::cout << "Trying to blit map texture to renderer at: " << m_renderer << std::endl;
 
     if (SDL_QueryTexture(texture, NULL, NULL, &destination.w, &destination.h) < 0) {
         printf("Failed to query texture of map: %s", SDL_GetError());

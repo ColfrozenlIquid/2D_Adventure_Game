@@ -1,7 +1,7 @@
 #pragma once
 #include "entity.hpp"
 
-#define PLAYER_SPRITE_PATH "./sprite/player.bmp"
+#define PLAYER_SPRITE_PATH "./sprite/player_200.bmp"
 
 class Player : public Entity {
     public:
@@ -10,5 +10,4 @@ class Player : public Entity {
         ~Player();
     private:
         SDL_Texture* load_Texture();
-        SDL_Renderer* m_renderer;
 };

@@ -5,10 +5,17 @@
 #include <iostream>
 #include "application.hpp"
 
-#define DEVIL_SPRITE "./sprite/devil.bmp"
-
 #define PLAYER_START_X 100
 #define PLAYER_START_Y 100
+
+#define DEVIL_START_X 500
+#define DEVIL_START_Y 500
+
+#define CHEST_START_X 800
+#define CHEST_START_Y 400
+
+#define CAT_START_X 1000
+#define CAT_START_Y 100
 
 enum Facing_Direction {
     FACE_LEFT, FACE_RIGHT
@@ -36,11 +43,10 @@ class Entity {
     protected:
         SDL_Renderer* m_renderer;
         SDL_Texture* m_texture;
-
-    private:
-        SDL_Texture* load_Texture(std::string filename);
-
         int m_x_pos;
         int m_y_pos;
         Facing_Direction m_facing;
+
+    private:
+        SDL_Texture* load_Texture(std::string filename);
 };
