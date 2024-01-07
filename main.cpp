@@ -3,13 +3,15 @@
 #include "application.hpp"
 #include "entity.hpp"
 #include "map.hpp"
+#include "player.hpp"
 
 #define MOVEMENT_SPEED 4
 
 int main() {
     Application main_Application;
     SDL_Renderer* main_Renderer = main_Application.m_renderer;
-    Entity player_entity(main_Renderer);
+    Player player_entity(main_Renderer);
+    //Entity devil_entity(main_Renderer, Character::DEVIL, 500, 500);
     Map map(main_Renderer);
 
     while (true) {
@@ -34,6 +36,7 @@ int main() {
         }
 
         player_entity.blit_Texture(player_entity.get_Entity_x_pos(), player_entity.get_Entity_y_pos());
+        //devil_entity.blit_Texture(devil_entity.get_Entity_x_pos(), devil_entity.get_Entity_y_pos());
         main_Application.present_Scene();
         SDL_Delay(16);
     }
