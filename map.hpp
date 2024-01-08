@@ -5,7 +5,7 @@
 #include <iostream>
 #include <random>
 
-#define MAX_TILE_TYPES 2
+#define MAX_TILE_TYPES 3
 #define TILE_SIZE 128
 #define MAP_WIDTH 20
 #define MAP_HEIGHT 12

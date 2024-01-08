@@ -1,6 +1,7 @@
 #include "map.hpp"
 
 #define FILENAME "./sprite/level/cobble0_"
+#define WALL_SPRITE_PATH "./sprite/level/wall0_0.bmp"
 
 Map::Map() {}
 
@@ -41,7 +42,6 @@ void Map::load_Tiles() {
         m_tile_textures_arr[i] = load_Texture(filename);
         std::cout << "Loading of texture: " << filename << " successful." << std::endl;
     }
-    std::cout << "All textures loaded." << std::endl;
 }
 
 void Map::blit_Texture(SDL_Texture* texture, int x_pos, int y_pos, int rotation) {
@@ -63,9 +63,13 @@ void Map::blit_Texture(SDL_Texture* texture, int x_pos, int y_pos, int rotation)
 void Map::generate_Floor_Plan() {
     for (int i = 0; i < MAP_RENDER_HEIGHT; i++) {
         for (int j = 0; j < MAP_RENDER_WIDTH; j++) {
+            if (i == 0) {
+                m_map_data[i][j].type = 2;
+                continue;
+            }
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> distr_type(0, MAX_TILE_TYPES-1);
+            std::uniform_int_distribution<> distr_type(0, MAX_TILE_TYPES-2);
             std::uniform_int_distribution<> distr_rotation(0, 3);
             int type = distr_type(gen);
             int roation = distr_rotation(gen) * 90;
