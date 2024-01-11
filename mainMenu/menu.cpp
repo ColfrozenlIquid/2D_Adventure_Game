@@ -6,6 +6,11 @@ Menu::~Menu() {}
 
 Menu::append_Widget(std::string label, std::string name) {
     Widget* widget;
+
+    widget->set_Label(label);
+    widget->set_Name(name);
+    this.
+    
     widget->m_label = label;
     widget->m_name = name;
 

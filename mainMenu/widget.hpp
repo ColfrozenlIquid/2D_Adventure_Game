@@ -9,6 +9,13 @@ class Widget {
 
         void append_Widget(std::string label, std::string name);
 
+        void set_Name(std::string name);
+        void set_Label(std::string label);
+        void set_X_Pos(int x_pos);
+        void set_Y_Pos(int y_pos);
+        void set_Prev_Widget(Widget* widget);
+        void set_Next_Widget(Widget* widget);
+
     private:
         std::string m_name;
         std::string m_label;
