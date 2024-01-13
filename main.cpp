@@ -12,6 +12,7 @@
 #include "./fonts/font.hpp"
 
 #define MOVEMENT_SPEED 4
+#define FONT_SIZE 100
 
 int main() {
     Application main_Application;
@@ -21,7 +22,7 @@ int main() {
     Devil devil_entity(main_Renderer);
     Chest chest_entity(main_Renderer);
     Cat cat_entity(main_Renderer);
-    //Entity devil_entity(main_Renderer, Character::DEVIL, 500, 500);
+
     Map map(main_Renderer);
 
     Menu main_menu;
@@ -35,7 +36,7 @@ int main() {
     font_color.a = 255;
     std::cout << "Gets here" << std::endl;
 
-    Font font(main_Renderer, Font::FONT_TYPE::ENTER_COMMAND, 100, font_color);
+    Font font(main_Renderer, Font::FONT_TYPE::ENTER_COMMAND, FONT_SIZE, font_color);
 
     SDL_Texture* text1 = font.get_Text_Texture("Sample text");
     std::cout << "Text1 address is: " << text1 << std::endl;
@@ -64,13 +65,13 @@ int main() {
             player_entity.set_Entity_Facing(Facing_Direction::FACE_RIGHT);
         }
 
-        font.blit_Texture(text1, 100, 300);
+        font.draw_Text("Hello World", Font::FONT_TYPE::ENTER_COMMAND, font_color, 100, 300);
         
         player_entity.blit_Texture(player_entity.get_Entity_x_pos(), player_entity.get_Entity_y_pos());
         devil_entity.blit_Texture(devil_entity.get_Entity_x_pos(), devil_entity.get_Entity_y_pos());
         chest_entity.blit_Texture(chest_entity.get_Entity_x_pos(), chest_entity.get_Entity_y_pos());
         cat_entity.blit_Texture(cat_entity.get_Entity_x_pos(), cat_entity.get_Entity_y_pos());
-        //devil_entity.blit_Texture(devil_entity.get_Entity_x_pos(), devil_entity.get_Entity_y_pos());
+
         main_Application.present_Scene();
         SDL_Delay(16);
     }
