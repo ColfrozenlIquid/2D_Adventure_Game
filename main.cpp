@@ -7,6 +7,9 @@
 #include "devil.hpp"
 #include "chest.hpp"
 #include "cat.hpp"
+#include "mainMenu/menu.hpp"
+#include "mainMenu/widget.hpp"
+#include "./fonts/font.hpp"
 
 #define MOVEMENT_SPEED 4
 
@@ -20,6 +23,22 @@ int main() {
     Cat cat_entity(main_Renderer);
     //Entity devil_entity(main_Renderer, Character::DEVIL, 500, 500);
     Map map(main_Renderer);
+
+    Menu main_menu;
+    Widget widget1("label1", "name1", 100, 100);
+    main_menu.add_Widget_To_Menu(widget1);
+
+    SDL_Color font_color;
+    font_color.r = 255;
+    font_color.g = 255;
+    font_color.b = 255;
+    font_color.a = 255;
+    std::cout << "Gets here" << std::endl;
+
+    Font font(main_Renderer, Font::FONT_TYPE::ENTER_COMMAND, 100, font_color);
+
+    SDL_Texture* text1 = font.get_Text_Texture("Sample text");
+    std::cout << "Text1 address is: " << text1 << std::endl;
 
     while (true) {
         uint32_t animation_speed = SDL_GetTicks() / 175;
@@ -45,6 +64,8 @@ int main() {
             player_entity.set_Entity_Facing(Facing_Direction::FACE_RIGHT);
         }
 
+        font.blit_Texture(text1, 100, 300);
+        
         player_entity.blit_Texture(player_entity.get_Entity_x_pos(), player_entity.get_Entity_y_pos());
         devil_entity.blit_Texture(devil_entity.get_Entity_x_pos(), devil_entity.get_Entity_y_pos());
         chest_entity.blit_Texture(chest_entity.get_Entity_x_pos(), chest_entity.get_Entity_y_pos());

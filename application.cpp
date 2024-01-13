@@ -4,6 +4,7 @@
 Application::Application() {
     init_SDL();
     init_SDL_Image();
+    init_SDL_Fonts();
 }
 
 Application::~Application() {}
@@ -11,6 +12,15 @@ Application::~Application() {}
 void Application::init_SDL_Image() {
     if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
         printf("Failed to initialise SDL_Image: %s\n", SDL_GetError());
+        SDL_Quit();
+        exit(1);
+    }
+}
+
+void Application::init_SDL_Fonts() {
+    if (TTF_Init() < 0) {
+        printf("Failed to initialise SDL_Fonts: %s\n", SDL_GetError());
+        TTF_Quit();
         exit(1);
     }
 }
@@ -21,6 +31,7 @@ void Application::init_SDL() {
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialise. SDL Error: %s\n", SDL_GetError());
+        SDL_Quit();
         exit(1);
     }
 
@@ -28,6 +39,7 @@ void Application::init_SDL() {
 
     if (!m_window) {
         printf("failed to open %d x %d SDL window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
+        SDL_Quit();
         exit(1);
     }
 
@@ -37,6 +49,7 @@ void Application::init_SDL() {
 
     if (!m_renderer) {
         printf("Failed to create SDL renderer: %s", SDL_GetError());
+        SDL_Quit();
         exit(1);
     }
 }

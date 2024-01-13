@@ -4,43 +4,26 @@ Widget::Widget() {}
 
 Widget::~Widget() {}
 
-Widget::Widget(std::string label, std::string name) {
+//Widget(label, name, x_pos, y_pos)
+Widget::Widget(std::string label, std::string name, int x_pos, int y_pos) {
     m_label = label;
     m_name = name;
-    m_prev_widget = this;
-    m_next_widget = this;
+    m_x_pos = x_pos;
+    m_y_pos = y_pos;
 }
 
-void Widget::append_Widget(std::string label, std::string name) {
-    Widget* widget;
-    widget->m_label = label;
-    widget->m_name = name;
-
-    this->m_next_widget = widget;
-    widget->m_prev_widget = this;
-    widget->m_next_widget = nullptr;
+std::string Widget::get_Name() {
+    return this->m_name;
 }
 
-void Widget::set_Name(std::string name) {
-    this->m_name = name;
+std::string Widget::get_Label() {
+    return this->m_label;
 }
 
-void Widget::set_Label(std::string label) {
-    this->m_label = label;
+int Widget::get_x_Pos() {
+    return this->m_x_pos;
 }
 
-void Widget::set_X_Pos(int x_pos) {
-    this->m_x_pos = x_pos;
-}
-
-void Widget::set_Y_Pos(int y_pos) {
-    this->m_y_pos = y_pos;
-}
-
-void Widget::set_Prev_Widget(Widget* widget) {
-    this->m_prev_widget = widget;
-}
-
-void Widget::set_Next_Widget(Widget* widget) {
-    this->m_next_widget = widget;
+int Widget::get_y_Pos() {
+    return this->m_y_pos;
 }
