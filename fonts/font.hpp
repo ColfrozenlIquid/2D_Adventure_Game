@@ -15,18 +15,22 @@
 #define MAX_WORD_LENGTH 30
 #define MAX_LINE_LENGTH 80
 
-#define PADDING 2
+#define PADDING 1
 
 #define ENTER_COMMAND_BOLD_PATH     "C:/Users/Daniel/Desktop/Game/fonts/EnterCommand-Bold.ttf"
 #define ENTER_COMMAND_ITALIC_PATH   "C:/Users/Daniel/Desktop/Game/fonts/EnterCommand-Italic.ttf"
 #define ENTER_COMMAND_PATH          "C:/Users/Daniel/Desktop/Game/fonts/EnterCommand.ttf"
+#define RETRO_GAMING_PATH           "C:/Users/Daniel/Desktop/Game/fonts/Retro Gaming.ttf"
+#define SCRIPTORIUM_PATH           "C:/Users/Daniel/Desktop/Game/fonts/Scriptorium.ttf"
 
 class Font{
     public:
         enum FONT_TYPE{
             ENTER_COMMAND_BOLD,
             ENTER_COMMAND_ITALIC,
-            ENTER_COMMAND
+            ENTER_COMMAND,
+            RETRO_GAMING,
+            SCRIPTORIUM
         };
 
         enum TEXT_ALIGNMENT {

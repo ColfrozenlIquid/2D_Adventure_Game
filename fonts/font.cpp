@@ -237,20 +237,16 @@ SDL_Texture* Font::to_Texture(SDL_Surface* sdl_surface, int destroy_surface) {
 }
 
 std::string Font::get_Font_Path(FONT_TYPE font_type) {
+    std::string font_path;
     switch (font_type) {
-    case FONT_TYPE::ENTER_COMMAND:
-        return ENTER_COMMAND_PATH;
-        break;
-    case FONT_TYPE::ENTER_COMMAND_BOLD:
-        return ENTER_COMMAND_BOLD_PATH;
-        break;
-    case FONT_TYPE::ENTER_COMMAND_ITALIC:
-        return ENTER_COMMAND_ITALIC_PATH;
-        break;
-    default:
-        break;
+        case ENTER_COMMAND:         font_path = ENTER_COMMAND_PATH; break;
+        case ENTER_COMMAND_BOLD:    font_path = ENTER_COMMAND_BOLD_PATH; break;
+        case ENTER_COMMAND_ITALIC:  font_path = ENTER_COMMAND_ITALIC_PATH; break;
+        case RETRO_GAMING:          font_path = RETRO_GAMING_PATH; break;
+        case SCRIPTORIUM:           font_path = SCRIPTORIUM_PATH; break;
+        default:                    font_path = ENTER_COMMAND_PATH; break;
     }
-    return "";
+    return font_path;
 }
 
 TTF_Font* Font::get_Font_Data() {

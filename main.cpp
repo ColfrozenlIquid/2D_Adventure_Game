@@ -13,7 +13,7 @@
 #include "./fonts/color.hpp"
 
 #define MOVEMENT_SPEED 4
-#define FONT_SIZE 30
+#define FONT_SIZE 25
 
 int main() {
     Application main_Application;
@@ -32,7 +32,7 @@ int main() {
 
     SDL_Color font_color = Color::get_Color(Color::WHITE);
 
-    Font font(main_Renderer, Font::FONT_TYPE::ENTER_COMMAND, FONT_SIZE, font_color);
+    Font font(main_Renderer, Font::FONT_TYPE::SCRIPTORIUM, FONT_SIZE, font_color);
 
     std::string sample_text = "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.";
     std::string sample_text2 = "Than of your graces and your gifts to tell; Which borrowed from this holy fire of Love, That they elsewhere might dart their injuries: I do believe her though I know she lies,";
