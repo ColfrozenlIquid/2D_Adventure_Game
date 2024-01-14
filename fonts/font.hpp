@@ -23,6 +23,8 @@
 #define RETRO_GAMING_PATH           "C:/Users/Daniel/Desktop/Game/fonts/Retro Gaming.ttf"
 #define SCRIPTORIUM_PATH           "C:/Users/Daniel/Desktop/Game/fonts/Scriptorium.ttf"
 
+#define SUPPORTED_CHARACTERS ""
+
 class Font{
     public:
         enum FONT_TYPE{
@@ -54,6 +56,7 @@ class Font{
         SDL_Color get_Font_Color();
 
         void init_Font_Atlas();
+        void init_Font_Atlas_UTF8();
 
         void draw_Text(std::string text, FONT_TYPE font_type, SDL_Color color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos, int max_width);
         int draw_Text_Wrapped(std::string text, FONT_TYPE font_type, SDL_Color color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos, int max_width, int do_draw);
@@ -83,6 +86,4 @@ class Font{
 
         std::string get_Font_Path(FONT_TYPE font_type);
         SDL_Texture* to_Texture(SDL_Surface* sdl_surface, int destroy_surface);
-
-        friend class Fonts;
 };

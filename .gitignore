@@ -74,5 +74,6 @@ _deps
 build/
 SDL2_image-2.8.2/
 SDL2-2.28.5/
+.VSCodeCounter/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudiocode

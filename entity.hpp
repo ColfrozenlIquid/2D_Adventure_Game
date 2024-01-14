@@ -17,6 +17,9 @@
 #define CAT_START_X 1000
 #define CAT_START_Y 100
 
+#define DEMON_START_X 100
+#define DEMON_START_Y 550
+
 enum Facing_Direction {
     FACE_LEFT, FACE_RIGHT
 };

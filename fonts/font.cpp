@@ -6,6 +6,7 @@ Font::Font(SDL_Renderer* sdl_renderer, FONT_TYPE font_type, int font_size, SDL_C
     this->m_renderer = sdl_renderer;
     this->m_font_size = font_size;
     this->m_font_color = color;
+    this->m_font_type = font_type;
 
     std::string font_path = get_Font_Path(font_type);
     std::cout << "Font path is: " << font_path << std::endl;
@@ -21,6 +22,59 @@ Font::Font(SDL_Renderer* sdl_renderer, FONT_TYPE font_type, int font_size, SDL_C
 }
 
 Font::~Font() {}
+
+void Font::init_Font_Atlas_UTF8() {
+    SDL_Surface* surface;
+    SDL_Surface* text;
+    SDL_Rect destination;
+    SDL_Rect* glyph;
+    char c[2];
+
+    destination.x = 0;
+    destination.y = 0;
+
+    surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
+    SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
+
+    SDL_Color color;
+    color.a = 255;
+    color.b = 255;
+    color.g = 255;
+    color.r = 255;
+
+    for (int i = ' '; i <= 'z'; i++) {
+        c[0] = i;
+        c[1] = 0;
+        Uint32 capitalA = 0x0407;
+        text = TTF_RenderUTF8_Blended(m_font_data, c, color);
+        if(TTF_GlyphIsProvided32(m_font_data, capitalA) != 0 ) {
+            std::cout << "Character: " << capitalA << " is present in current font" << std::endl;
+        }
+        else {
+            std::cout << "Character: " << capitalA << " is not present in current font" << std::endl;
+        }
+        TTF_SizeText(m_font_data, c, &destination.w, &destination.h);
+
+        if (destination.x + destination.w >= FONT_TEXTURE_SIZE) {
+            destination.x = 0;
+            destination.y += destination.h + 1;
+            if (destination.y + destination.h >= FONT_TEXTURE_SIZE) {
+                SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "Out of glyph space in glyph texture atlas");
+                SDL_Quit();
+                exit(1);
+            }
+        }
+        SDL_BlitSurface(text, NULL, surface, &destination);
+        glyph = &m_glyphs[i];
+        glyph->x = destination.x;
+        glyph->y = destination.y;
+        glyph->w = destination.w;
+        glyph->h = destination.h;
+        SDL_FreeSurface(text);
+        destination.x += destination.w;
+    }
+    m_glyph_atlas = to_Texture(surface, 1);
+}
 
 void Font::init_Font_Atlas() {
     SDL_Surface* surface;
@@ -45,6 +99,9 @@ void Font::init_Font_Atlas() {
         c[0] = i;
         c[1] = 0;
         text = TTF_RenderUTF8_Blended(m_font_data, c, color);
+        // if(TTF_GlyphIsProvided32(m_font_data, (Uint32)c) != 0 ) {
+        //     std::cout << "Character: " << c << "is present in current font" << std::endl;
+        // }
         TTF_SizeText(m_font_data, c, &destination.w, &destination.h);
 
         if (destination.x + destination.w >= FONT_TEXTURE_SIZE) {
@@ -185,7 +242,6 @@ void Font::draw_Text_Line(std::string text, FONT_TYPE font_type, SDL_Color color
         x_pos += glyph->w;
         character = text[i++];
     }
-
 }
 
 void Font::calculate_Text_Dimnesions(std::string text, FONT_TYPE font_type, int* w, int* h) {
