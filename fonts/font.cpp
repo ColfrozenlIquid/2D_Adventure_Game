@@ -68,14 +68,111 @@ void Font::init_Font_Atlas() {
     m_glyph_atlas = to_Texture(surface, 1);
 }
 
-void Font::draw_Text(std::string text, FONT_TYPE font_type, SDL_Color color, int x_pos, int y_pos) {
+void Font::draw_Text(std::string text, FONT_TYPE font_type, SDL_Color color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos, int max_width) {
+
+    if (max_width > 0) {
+        draw_Text_Wrapped(text, font_type, color, alignment, x_pos, y_pos, max_width, 1);
+    }
+    else {
+        draw_Text_Line(text, font_type, color, alignment, x_pos, y_pos);
+    }
+}
+
+void Font::draw_Rect(int x_pos, int y_pos, int width, int height, SDL_Color color) {
+    SDL_Rect rect;
+    rect.x = x_pos;
+    rect.y = y_pos;
+    rect.w = width;
+    rect.h = height;
+
+    SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(m_renderer, &rect);
+}
+
+void Font::draw_Outline_Rect(int x_pos, int y_pos, int width, int height, SDL_Color color) {
+
+}
+
+void Font::draw_Boxed_Text(std::string text, SDL_Color font_color, SDL_Color box_color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos) {
+    int width = TEXT_BOX_WIDTH;
+    int height = get_Wrapped_Text_Height(text, m_font_type, alignment, width);
+
+    width += 10;
+    height += 10;
+
+    draw_Rect(x_pos - PADDING, y_pos - PADDING, width + PADDING*2, height + PADDING*2, Color::get_Color(Color::WHITE));
+    draw_Rect(x_pos, y_pos, width, height, box_color);
+    draw_Text(text, m_font_type, font_color, alignment, x_pos + 10, y_pos, width);
+}
+
+int Font::get_Wrapped_Text_Height(std::string text, FONT_TYPE font_type, TEXT_ALIGNMENT alignment, int width) {
+    return draw_Text_Wrapped(text, font_type, m_font_color, alignment, 0, 0, width, 0);
+}
+
+int Font::draw_Text_Wrapped(std::string text, FONT_TYPE font_type, SDL_Color color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos, int max_width, int do_draw) {
+    char word[MAX_WORD_LENGTH];
+    char line[MAX_LINE_LENGTH];
     int i = 0;
-    int character;
+    int n = 0;
+    int word_width = 0;
+    int line_width = 0;
+    int character = text[i++];
+    int length = text.size();
+
+    memset(word, 0, MAX_WORD_LENGTH);
+    memset(line, 0, MAX_LINE_LENGTH);
+
+    while (character) {
+        word_width += m_glyphs[character].w;
+        if (character != ' ') {
+            word[n++] = character;
+        }
+        if (character == ' ' || i == length) {
+            if ((line_width + word_width) >= max_width) {
+                if (do_draw) {
+                    draw_Text_Line(line, font_type, color, alignment, x_pos, y_pos);
+                }
+                memset(line, 0, MAX_LINE_LENGTH);
+                y_pos += m_glyphs[' '].h;
+                line_width = 0;
+            }
+            else if (line_width != 0) {
+                strcat(line, " ");
+            }
+            strcat(line, word);
+            line_width += word_width;
+            memset(word, 0, MAX_WORD_LENGTH);
+            word_width = 0;
+            n = 0;
+        }
+        character = text[i++];
+    }
+    if (do_draw) {
+        draw_Text_Line(line, font_type, color, alignment, x_pos, y_pos);
+    }
+    return (y_pos + m_glyphs[' '].h);
+}
+
+void Font::draw_Text_Line(std::string text, FONT_TYPE font_type, SDL_Color color, TEXT_ALIGNMENT alignment, int x_pos, int y_pos) {
+    int i = 0;
+    int character = text[i++];
+    int w;
+    int h;
+
     SDL_Rect* glyph;
     SDL_Rect destination;
 
     SDL_SetTextureColorMod(m_glyph_atlas, color.r, color.g, color.b);
-    character = text[i++];
+
+    if (alignment != TEXT_ALIGNMENT::TEXT_ALIGN_LEFT) {
+        calculate_Text_Dimnesions(text, font_type, &w, &h);
+        if (alignment == TEXT_ALIGNMENT::TEXT_ALIGN_CENTER) {
+            x_pos -= (w/2);
+        }
+        if (alignment == TEXT_ALIGNMENT::TEXT_ALIGN_RIGHT) {
+            x_pos -= w;
+        }
+    }
     
     while (character) {
         glyph = &m_glyphs[character];
@@ -87,6 +184,22 @@ void Font::draw_Text(std::string text, FONT_TYPE font_type, SDL_Color color, int
         SDL_RenderCopy(m_renderer, m_glyph_atlas, glyph, &destination);
         x_pos += glyph->w;
         character = text[i++];
+    }
+
+}
+
+void Font::calculate_Text_Dimnesions(std::string text, FONT_TYPE font_type, int* w, int* h) {
+    int i = 0;
+    int character = text[i++];
+    SDL_Rect* glyph;
+    *w = 0;
+    *h = 0;
+
+    while (character) {
+        glyph = &m_glyphs[character];
+        *w += glyph->w;
+        *h = MAX(glyph->h, *h);
+        character = text[i++]; 
     }
 }
 

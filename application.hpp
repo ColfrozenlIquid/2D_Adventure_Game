@@ -3,9 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#include "defines.hpp"
 
 enum Player_Movement_Direction {
     UP, DOWN, LEFT, RIGHT, NONE
