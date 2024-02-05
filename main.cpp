@@ -26,7 +26,7 @@ enum GAME_STATE {
 };
 
 int main() {
-    GAME_STATE game_state = GAME;
+    GAME_STATE game_state = MAIN_MENU;
     Application main_Application;
     SDL_Renderer* main_Renderer = main_Application.m_renderer;
     int running = 1;
@@ -98,17 +98,21 @@ void game(Application main_Application, SDL_Renderer* main_Renderer) {
 
         if (direction == Player_Movement_Direction::UP) {
             player_entity.move_Entity_Vertical(-MOVEMENT_SPEED);
+            map.update_camera_y_position(-MOVEMENT_SPEED);
         }
-        if (direction == Player_Movement_Direction::DOWN) {
+        else if (direction == Player_Movement_Direction::DOWN) {
             player_entity.move_Entity_Vertical(MOVEMENT_SPEED);
+            map.update_camera_y_position(MOVEMENT_SPEED);
         }
-        if (direction == Player_Movement_Direction::LEFT) {
+        else if (direction == Player_Movement_Direction::LEFT) {
             player_entity.move_Entity_Horizontal(-MOVEMENT_SPEED);
             player_entity.set_Entity_Facing(Facing_Direction::FACE_LEFT);
+            map.update_camera_x_position(-MOVEMENT_SPEED);
         }
-        if (direction == Player_Movement_Direction::RIGHT) {
+        else if (direction == Player_Movement_Direction::RIGHT) {
             player_entity.move_Entity_Horizontal(MOVEMENT_SPEED);
             player_entity.set_Entity_Facing(Facing_Direction::FACE_RIGHT);
+            map.update_camera_x_position(MOVEMENT_SPEED);
         }
 
         //font.draw_Text("Hello World", Font::FONT_TYPE::ENTER_COMMAND, font_color, 100, 300);

@@ -23,6 +23,15 @@ Font::Font(SDL_Renderer* sdl_renderer, FONT_TYPE font_type, int font_size, SDL_C
 
 Font::~Font() {}
 
+void Font::find_Supported_Characters() {
+    int utf_8_start = 0;        //first utf8 code point
+    int utf_8_end = 0x10ffff;   //last utf8 code point
+    
+    for (int i = utf_8_start; i <= utf_8_end; i++) {
+        
+    }
+}
+
 void Font::init_Font_Atlas_UTF8() {
     SDL_Surface* surface;
     SDL_Surface* text;

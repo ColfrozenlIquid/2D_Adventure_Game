@@ -86,4 +86,5 @@ class Font{
 
         std::string get_Font_Path(FONT_TYPE font_type);
         SDL_Texture* to_Texture(SDL_Surface* sdl_surface, int destroy_surface);
+        void find_Supported_Characters();
 };

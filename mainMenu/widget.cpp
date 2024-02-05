@@ -11,6 +11,10 @@ Widget::Widget(std::string label, std::string name) {
     m_y_pos = 0;
 }
 
+void Widget::action() {
+    std::cout << "Registered action of widget: " << m_label << std::endl;
+}
+
 void Widget::set_x_Pos(int x_pos) {
     this->m_x_pos = x_pos;
 }

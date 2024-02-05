@@ -48,6 +48,7 @@ void Menu::draw_Widgets(Font font, Font::TEXT_ALIGNMENT alignment) {
     for (int i = 0; i < m_widget_count; i++) {
         int y_pos = m_menu_widgets[i].get_y_Pos() + m_y_pos;
         if (i == m_active_widget) {
+            //std::string label = "> " + m_menu_widgets[i].get_Label();
             font.draw_Text(m_menu_widgets[i].get_Label(), font.ENTER_COMMAND, Color::get_Color(Color::GREEN), alignment, m_x_pos, y_pos, 100);
         }
         else {
@@ -97,7 +98,7 @@ void Menu::handle_Input() {
 
 void Menu::handle_Key_Down(SDL_KeyboardEvent* keyboard_event) {
     if (keyboard_event->repeat == 0) {
-        if (keyboard_event->keysym.scancode == SDL_SCANCODE_W) {
+        if ((keyboard_event->keysym.scancode == SDL_SCANCODE_W) || (keyboard_event->keysym.scancode == SDL_SCANCODE_UP)) {
             if (m_widget_count != 1) {
                 if (m_active_widget == 0) {
                     m_active_widget = m_widget_count;
@@ -106,8 +107,9 @@ void Menu::handle_Key_Down(SDL_KeyboardEvent* keyboard_event) {
                     m_active_widget -= 1;
                 }
             }
+            return;
         }
-        if (keyboard_event->keysym.scancode == SDL_SCANCODE_S) {
+        if ((keyboard_event->keysym.scancode == SDL_SCANCODE_S) || (keyboard_event->keysym.scancode == SDL_SCANCODE_DOWN)) {
             if (m_widget_count != 1) {
                 if (m_active_widget < m_widget_count) {
                     m_active_widget += 1;
@@ -116,6 +118,15 @@ void Menu::handle_Key_Down(SDL_KeyboardEvent* keyboard_event) {
                     m_active_widget = 0;
                 }
             }
+            return;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_SPACE || keyboard_event->keysym.scancode == SDL_SCANCODE_RETURN) {
+            m_menu_widgets[m_active_widget].action();
+            return;
+        }
+        if (keyboard_event->keysym.scancode == SDL_SCANCODE_Q) {
+            SDL_Quit();
+            exit(0);
         }
     }
 }

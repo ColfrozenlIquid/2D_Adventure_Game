@@ -17,6 +17,14 @@ void Map::init_Map() {
     load_Tiles();
 }
 
+void Map::update_camera_x_position(int dx) {
+    m_camera.x += dx;
+}
+
+void Map::update_camera_y_position(int dy) {
+    m_camera.y += dy;
+}
+
 void Map::draw_Map() {
     for (int y = 0; y < MAP_RENDER_HEIGHT; y++) {
         for (int x = 0; x < MAP_RENDER_WIDTH; x++) {

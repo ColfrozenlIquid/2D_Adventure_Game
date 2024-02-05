@@ -25,6 +25,9 @@ class Map {
 
         void blit_Texture(SDL_Texture* texture, int x_pos, int y_pos, int rotation);
         void draw_Map();
+
+        void update_camera_x_position(int dx);
+        void update_camera_y_position(int dy);
     
     private:
         void init_Map();
@@ -37,6 +40,7 @@ class Map {
 
         SDL_Texture* m_tile_textures_arr[MAX_TILE_TYPES];
         SDL_Renderer* m_renderer;
+        SDL_Point m_camera;
 
         Tile m_map_data[MAP_RENDER_HEIGHT][MAP_RENDER_WIDTH];
 };
